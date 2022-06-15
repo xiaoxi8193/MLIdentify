@@ -38,4 +38,11 @@ dependencies {
 
     // 引入身份证plugin与识别能力集合包。
     implementation 'com.huawei.hms:ml-computer-card-icr-cn:3.5.0.300'
+
+    // 引入基础SDK
+    implementation 'com.huawei.hms:ml-computer-vision-ocr:3.5.0.304'
+    // 引入拉丁语文字识别模型包
+    implementation 'com.huawei.hms:ml-computer-vision-ocr-latin-model:3.5.0.304'
+    // 引入通用卡证识别插件包
+    implementation 'com.huawei.hms:ml-computer-card-gcr-plugin:3.5.0.301'
 }

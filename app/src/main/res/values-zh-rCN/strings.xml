@@ -31,6 +31,7 @@
     <string name="aft_s">音频文件转写</string>
     <string name="bcr_s">银行卡识别</string>
     <string name="ucr_s">通用卡证识别</string>
+    <string name="officer_s">军官证识别</string>
     <string name="asr_s">实时语音识别</string>
     <string name="tts_s">语音合成</string>
     <string name="text_embedding">文本嵌入</string>

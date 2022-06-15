@@ -297,6 +297,13 @@
                     android:textColor="@color/secondary_text_color"
                     android:textSize="@dimen/text_size_14sp"></TextView>
             </LinearLayout>
+
+            <Button
+                android:layout_width="100dp"
+                android:layout_height="@dimen/btn_height"
+                android:id="@+id/btn_officer"
+                android:layout_gravity="center_horizontal"
+                android:text="@string/officer_s"/>
         </LinearLayout>
     </ScrollView>
 

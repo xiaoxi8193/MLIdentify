@@ -1,8 +1,9 @@
-package com.ys.identify;
+package com.ys.identify.activity;
 
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.Manifest;
+import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
 import android.os.Build;
@@ -20,6 +21,7 @@ import com.huawei.hms.mlplugin.card.icr.cn.MLCnIcrCapture;
 import com.huawei.hms.mlplugin.card.icr.cn.MLCnIcrCaptureConfig;
 import com.huawei.hms.mlplugin.card.icr.cn.MLCnIcrCaptureFactory;
 import com.huawei.hms.mlplugin.card.icr.cn.MLCnIcrCaptureResult;
+import com.ys.identify.R;
 
 public class MainActivity extends AppCompatActivity implements View.OnClickListener {
 
@@ -71,6 +73,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         this.frontDeleteImg.setOnClickListener(this);
         this.backDeleteImg.setOnClickListener(this);
         this.findViewById(R.id.back).setOnClickListener(this);
+        this.findViewById(R.id.btn_officer).setOnClickListener(this);
     }
 
     @Override
@@ -109,11 +112,14 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 this.showBackDeleteImage();
                 this.lastBackResult = "";
                 break;
+            case R.id.btn_officer:
+                Log.i(TAG, "onClick Officer Card Recognition");
+                startActivity(new Intent(MainActivity.this, GeneralCardRecognitionActivity.class));
+                break;
             case R.id.back:
                 //this.finish();
                 break;
             default:
-                break;
         }
     }
 
