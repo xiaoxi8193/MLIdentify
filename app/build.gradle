@@ -43,6 +43,8 @@ dependencies {
     implementation 'com.huawei.hms:ml-computer-vision-ocr:3.5.0.304'
     // 引入拉丁语文字识别模型包
     implementation 'com.huawei.hms:ml-computer-vision-ocr-latin-model:3.5.0.304'
+    // 引入中英文文字识别模型
+    implementation 'com.huawei.hms:ml-computer-vision-ocr-cn-model:2.0.5.300'
     // 引入通用卡证识别插件包
     implementation 'com.huawei.hms:ml-computer-card-gcr-plugin:3.5.0.301'
 }

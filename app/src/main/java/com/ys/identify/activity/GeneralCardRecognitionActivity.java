@@ -213,7 +213,7 @@ public class GeneralCardRecognitionActivity extends AppCompatActivity implements
     // take a picture
     private void detectPhoto(Object object, MLGcrCapture.Callback callback) {
         // 创建通用卡证识别配置器。可设置通用卡证识别的语种。
-        MLGcrCaptureConfig cardConfig = new MLGcrCaptureConfig.Factory().setLanguage("en").create();
+        MLGcrCaptureConfig cardConfig = new MLGcrCaptureConfig.Factory().setLanguage("zh").create();
         // 创建通用卡证识别界面配置器。
         MLGcrCaptureUIConfig uiConfig = new MLGcrCaptureUIConfig.Factory()
                 // 设置扫描框颜色。
@@ -231,7 +231,7 @@ public class GeneralCardRecognitionActivity extends AppCompatActivity implements
 
     // video stream
     private void detectPreview(Object object, MLGcrCapture.Callback callback) {
-        MLGcrCaptureConfig cardConfig = new MLGcrCaptureConfig.Factory().setLanguage("en").create();
+        MLGcrCaptureConfig cardConfig = new MLGcrCaptureConfig.Factory().setLanguage("zh").create();
         MLGcrCaptureUIConfig uiConfig = new MLGcrCaptureUIConfig.Factory()
                 .setTipText(getResources().getString(R.string.vedio_tip))
                 .setOrientation(MLGcrCaptureUIConfig.ORIENTATION_AUTO).create();
@@ -242,7 +242,7 @@ public class GeneralCardRecognitionActivity extends AppCompatActivity implements
     // local image
     private void detectLocalImage(Bitmap bitmap, Object object, MLGcrCapture.Callback callback) {
         // 创建通用卡证识别配置器。可设置通用卡证识别的语种
-        MLGcrCaptureConfig config = new MLGcrCaptureConfig.Factory().setLanguage("ch").create();
+        MLGcrCaptureConfig config = new MLGcrCaptureConfig.Factory().setLanguage("zh").create();
         MLGcrCapture ocrManager = MLGcrCaptureFactory.getInstance().getGcrCapture(config);
         // bitmap 为需要识别的Bitmap类型卡证图像，支持的图片格式包括：jpg/jpeg/png/bmp
         ocrManager.captureImage(bitmap, object, callback);
