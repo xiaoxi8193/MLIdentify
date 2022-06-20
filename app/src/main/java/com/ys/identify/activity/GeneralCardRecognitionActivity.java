@@ -57,6 +57,8 @@ public class GeneralCardRecognitionActivity extends AppCompatActivity implements
 
     private CardType cardTypeEnum = CardType.OFFICERCARD;
 
+    private Bitmap imageBitmap;
+
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -97,68 +99,6 @@ public class GeneralCardRecognitionActivity extends AppCompatActivity implements
         OFFICERCARD
     }
 
-    //创建识别结果回调函数，重载onResult、onCanceled、onFailure、onDenied四个方法。
-    // onResult表示返回了结果，MLGcrCaptureResult为卡证识别返回的结果，onCanceled表示用户取消，
-    // onFailure表示识别失败，onDenied表示相机不可用等场景。
-    private MLGcrCapture.Callback callback = new MLGcrCapture.Callback() {
-        // 此方法需要返回状态码：
-        // MLGcrCaptureResult.CAPTURE_CONTINUE：表示返回的结果不满足要求（无结果或返回结果有误等），在视频流或拍照模式下，会继续识别。
-        // MLGcrCaptureResult.CAPTURE_STOP：表示返回的结果满足要求，停止识别。
-        @Override
-        public int onResult(MLGcrCaptureResult result, Object object) {
-            Log.i(TAG, "callback onRecSuccess");
-            // 识别结果处理，开发者需要根据应用场景，实现自己的后处理逻辑，提取有效信息，返回对应的状态码。
-            if (result == null) {
-                Log.e(TAG, "callback onRecSuccess result is null");
-                return MLGcrCaptureResult.CAPTURE_CONTINUE;// 不满足要求，继续识别
-            }
-
-            // 满足要求的结果进行处理。
-            GeneralCardProcessor idCard = null;
-            GeneralCardResult cardResult = null;
-
-            if (cardTypeEnum == CardType.OFFICERCARD) {
-                idCard = new OfficerCardProcessor(result.text);
-            }
-
-            if (idCard != null) {
-                cardResult = idCard.getResult();
-            }
-
-            showFrontImage(result.cardBitmap);
-            displayResult(cardResult);
-
-            // If the results don't match
-            if (cardResult == null || cardResult.valid.isEmpty() || cardResult.number.isEmpty()) {
-                return MLGcrCaptureResult.CAPTURE_CONTINUE;// 不满足要求，继续识别
-            }
-
-            displayResult(cardResult);
-            return MLGcrCaptureResult.CAPTURE_STOP;// 处理结束，退出识别
-        }
-
-        // 用户取消处理。
-        @Override
-        public void onCanceled() {
-            Log.i(TAG, "callback onRecCanceled");
-        }
-
-        // 识别不到任何文字信息或识别过程发生系统异常的回调方法。
-        // retCode：错误码。
-        // bitmap：检测失败的卡证图片。
-        @Override
-        public void onFailure(int retCode, Bitmap bitmap) {
-            // 识别异常处理
-
-        }
-
-        // 相机不支持等场景处理
-        @Override
-        public void onDenied() {
-            Log.i(TAG, "callback onCameraDenied");
-        }
-    };
-
     private void showChoosePicDialog() {
         AddPictureDialog addPictureDialog = new AddPictureDialog(this,AddPictureDialog.TYPE_CUSTOM);
         addPictureDialog.setClickListener(new AddPictureDialog.ClickListener() {
@@ -168,7 +108,7 @@ public class GeneralCardRecognitionActivity extends AppCompatActivity implements
                     requestPermission(PERMISSIONS, REQUEST_CODE);
                     return;
                 } else {
-                    detectPhoto(object, callback);
+                    detectPhoto(null, callback);
                 }
             }
 
@@ -183,7 +123,7 @@ public class GeneralCardRecognitionActivity extends AppCompatActivity implements
                     requestPermission(PERMISSIONS, REQUEST_CODE);
                     return;
                 } else {
-                    detectPreview(object, callback);
+                    detectPreview(null, callback);
                 }
             }
         });
@@ -247,6 +187,68 @@ public class GeneralCardRecognitionActivity extends AppCompatActivity implements
         // bitmap 为需要识别的Bitmap类型卡证图像，支持的图片格式包括：jpg/jpeg/png/bmp
         ocrManager.captureImage(bitmap, object, callback);
     }
+
+    //创建识别结果回调函数，重载onResult、onCanceled、onFailure、onDenied四个方法。
+    // onResult表示返回了结果，MLGcrCaptureResult为卡证识别返回的结果，onCanceled表示用户取消，
+    // onFailure表示识别失败，onDenied表示相机不可用等场景。
+    private MLGcrCapture.Callback callback = new MLGcrCapture.Callback() {
+        // 此方法需要返回状态码：
+        // MLGcrCaptureResult.CAPTURE_CONTINUE：表示返回的结果不满足要求（无结果或返回结果有误等），在视频流或拍照模式下，会继续识别。
+        // MLGcrCaptureResult.CAPTURE_STOP：表示返回的结果满足要求，停止识别。
+        @Override
+        public int onResult(MLGcrCaptureResult result, Object object) {
+            Log.i(TAG, "callback onRecSuccess");
+            // 识别结果处理，开发者需要根据应用场景，实现自己的后处理逻辑，提取有效信息，返回对应的状态码。
+            if (result == null) {
+                Log.e(TAG, "callback onRecSuccess result is null");
+                return MLGcrCaptureResult.CAPTURE_CONTINUE;// 不满足要求，继续识别
+            }
+
+            // 满足要求的结果进行处理。
+            GeneralCardProcessor idCard = null;
+            GeneralCardResult cardResult = null;
+
+            if (cardTypeEnum == CardType.OFFICERCARD) {
+                idCard = new OfficerCardProcessor(result.text);
+            }
+
+            if (idCard != null) {
+                cardResult = idCard.getResult();
+            }
+
+            showFrontImage(result.cardBitmap);
+            displayResult(cardResult);
+
+            // If the results don't match
+            if (cardResult == null || cardResult.valid.isEmpty() || cardResult.number.isEmpty()) {
+                return MLGcrCaptureResult.CAPTURE_CONTINUE;// 不满足要求，继续识别
+            }
+
+            displayResult(cardResult);
+            return MLGcrCaptureResult.CAPTURE_STOP;// 处理结束，退出识别
+        }
+
+        // 用户取消处理。
+        @Override
+        public void onCanceled() {
+            Log.i(TAG, "callback onRecCanceled");
+        }
+
+        // 识别不到任何文字信息或识别过程发生系统异常的回调方法。
+        // retCode：错误码。
+        // bitmap：检测失败的卡证图片。
+        @Override
+        public void onFailure(int retCode, Bitmap bitmap) {
+            // 识别异常处理
+
+        }
+
+        // 相机不支持等场景处理
+        @Override
+        public void onDenied() {
+            Log.i(TAG, "callback onCameraDenied");
+        }
+    };
 
     private void displayResult(GeneralCardResult result) {
         if (result == null) {
@@ -319,5 +321,14 @@ public class GeneralCardRecognitionActivity extends AppCompatActivity implements
             this.requestPermissions(permissions, requestCode);
         }
         return true;
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        if (imageBitmap != null && !imageBitmap.isRecycled()) {
+            imageBitmap.recycle();
+            imageBitmap = null;
+        }
     }
 }
