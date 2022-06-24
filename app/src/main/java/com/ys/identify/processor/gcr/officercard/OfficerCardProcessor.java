@@ -11,6 +11,7 @@ import com.ys.identify.processor.gcr.GeneralCardProcessor;
 import com.ys.identify.util.StringUtils;
 
 import java.util.ArrayList;
+import java.util.Comparator;
 import java.util.List;
 
 public class OfficerCardProcessor implements GeneralCardProcessor {
@@ -32,35 +33,111 @@ public class OfficerCardProcessor implements GeneralCardProcessor {
 
         ArrayList<BlockItem> officerOriginItems = officerGetOriginItems(blocks);
 
-        String valid = "";
+        String name = "";
+        String gender = "";
+        String department = "";
+        String job = "";
+        String rank = "";
+        String type = "";
         String number = "";
+        String useDate = "";
+
+        String valid = "";
+
+        boolean nameFlag = false;
+        boolean genderFlag = false;
+        boolean departmentFlag = false;
+        boolean jobFlag = false;
+        boolean rankFlag = false;
+        boolean typeFlag = false;
         boolean numberFlag = false;
+        boolean useDateFlag = false;
+
         boolean validFlag = false;
 
-        for (BlockItem item : officerOriginItems) {
-            String officerTempStr = item.text;
+        BlockItem blockItem = officerOriginItems.stream().min(Comparator.comparing(BlockItem::getRectCenterY)).get();
 
-            if (!validFlag) {
-                String officerResult = tryGetValidDate(officerTempStr);
-                if (!officerResult.isEmpty()) {
-                    valid = officerResult;
-                    validFlag = true;
-                }
-            }
-
-            if (!numberFlag) {
-                String officerResult = tryGetCardNumber(officerTempStr);
-                if (!officerResult.isEmpty()) {
-                    number = officerResult;
-                    numberFlag = true;
-                }
-            }
+        String nameResult = blockItem.text;
+        if (!nameResult.isEmpty()) {
+            name = nameResult;
         }
+
+
+//        for (BlockItem item : officerOriginItems) {
+//            String officerTempStr = item.text;
+//            Rect rect = item.rect;
+//            int height = rect.centerY();
+//
+//
+//            if (!nameFlag) {
+//                String officerResult = officerTempStr;
+//                if (!officerResult.isEmpty()) {
+//                    name = officerResult;
+//                    nameFlag = true;
+//                }
+//            }
+//
+//            if (!genderFlag) {
+//                String officerResult = officerTempStr;
+//                if (!officerResult.isEmpty()) {
+//                    gender = officerResult;
+//                    genderFlag = true;
+//                }
+//            }
+//
+//            if (!departmentFlag) {
+//                String officerResult = officerTempStr;
+//                if (!officerResult.isEmpty()) {
+//                    department = officerResult;
+//                    departmentFlag = true;
+//                }
+//            }
+//
+//            if (!jobFlag) {
+//                String officerResult = officerTempStr;
+//                if (!officerResult.isEmpty()) {
+//                    job = officerResult;
+//                    jobFlag = true;
+//                }
+//            }
+//
+//            if (!rankFlag) {
+//                String officerResult = officerTempStr;
+//                if (!officerResult.isEmpty()) {
+//                    rank = officerResult;
+//                    rankFlag = true;
+//                }
+//            }
+//
+//            if (!typeFlag) {
+//                String officerResult = officerTempStr;
+//                if (!officerResult.isEmpty()) {
+//                    type = officerResult;
+//                    typeFlag = true;
+//                }
+//            }
+//
+//            if (!numberFlag) {
+//                String officerResult = officerTempStr;
+//                if (!officerResult.isEmpty()) {
+//                    number = officerResult;
+//                    numberFlag = true;
+//                }
+//            }
+//
+//            if (!useDateFlag) {
+//                String officerResult = officerTempStr;
+//                if (!officerResult.isEmpty()) {
+//                    useDate = officerResult;
+//                    useDateFlag = true;
+//                }
+//            }
+//        }
 
         Log.i(TAG, "valid: " + valid);
         Log.i(TAG, "number: " + number);
 
-        return new GeneralCardResult(valid, number);
+        return new GeneralCardResult(name, gender, department, job, rank, type, number, useDate);
     }
 
     private ArrayList<BlockItem> officerGetOriginItems(List<MLText.Block> blocks) {
@@ -71,7 +148,7 @@ public class OfficerCardProcessor implements GeneralCardProcessor {
             List<MLText.TextLine> lines = block.getContents();
             for (MLText.TextLine line : lines) {
                 String officerText = line.getStringValue();
-                officerText = StringUtils.filterString(officerText, "[^a-zA-Z0-9\\.\\-,<\\(\\)\\s]");
+                officerText = StringUtils.filterString(officerText, "[^\u4e00-\u9fa5a-zA-Z0-9\\.\\-,<\\(\\)\\s]");
                 Log.d(TAG, "text: " + officerText);
                 Point[] points = line.getVertexes();
                 Rect rect = new Rect(points[0].x, points[0].y, points[2].x, points[2].y);

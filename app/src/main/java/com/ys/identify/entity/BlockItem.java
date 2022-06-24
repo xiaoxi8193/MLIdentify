@@ -13,4 +13,16 @@ public class BlockItem {
         this.text = text;
         this.rect = rect;
     }
+
+    public String getText() {
+        return text;
+    }
+
+    public Rect getRect() {
+        return rect;
+    }
+
+    public int getRectCenterY(){
+        return rect.centerY();
+    }
 }

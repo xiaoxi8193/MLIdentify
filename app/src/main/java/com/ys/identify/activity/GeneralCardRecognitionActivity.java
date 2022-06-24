@@ -209,7 +209,7 @@ public class GeneralCardRecognitionActivity extends AppCompatActivity implements
             GeneralCardResult cardResult = null;
 
             if (cardTypeEnum == CardType.OFFICERCARD) {
-                idCard = new OfficerCardProcessor(result.text);
+                 idCard = new OfficerCardProcessor(result.text);
             }
 
             if (idCard != null) {
@@ -220,7 +220,12 @@ public class GeneralCardRecognitionActivity extends AppCompatActivity implements
             displayResult(cardResult);
 
             // If the results don't match
-            if (cardResult == null || cardResult.valid.isEmpty() || cardResult.number.isEmpty()) {
+            if (cardResult == null || cardResult.name.isEmpty()
+//                    || cardResult.gender.isEmpty()
+//                    || cardResult.department.isEmpty() || cardResult.job.isEmpty()
+//                    || cardResult.rank.isEmpty() || cardResult.type.isEmpty()
+//                    || cardResult.number.isEmpty() || cardResult.useDate.isEmpty()
+            ) {
                 return MLGcrCaptureResult.CAPTURE_CONTINUE;// 不满足要求，继续识别
             }
 
@@ -259,12 +264,36 @@ public class GeneralCardRecognitionActivity extends AppCompatActivity implements
         }
         StringBuilder builder = new StringBuilder();
 
-        builder.append("valid: ");
-        builder.append(result.valid);
+        builder.append("name: ");
+        builder.append(result.name);
+        builder.append(System.lineSeparator());
+
+        builder.append("gender: ");
+        builder.append(result.gender);
+        builder.append(System.lineSeparator());
+
+        builder.append("department: ");
+        builder.append(result.department);
+        builder.append(System.lineSeparator());
+
+        builder.append("job: ");
+        builder.append(result.job);
+        builder.append(System.lineSeparator());
+
+        builder.append("rank: ");
+        builder.append(result.rank);
+        builder.append(System.lineSeparator());
+
+        builder.append("type: ");
+        builder.append(result.type);
         builder.append(System.lineSeparator());
 
         builder.append("number: ");
         builder.append(result.number);
+        builder.append(System.lineSeparator());
+
+        builder.append("useDate: ");
+        builder.append(result.useDate);
 
         showResult.setText(builder.toString());
     }
