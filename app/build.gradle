@@ -13,6 +13,10 @@ android {
         versionName "1.0"
 
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
+//
+//        ndk {
+//            abiFilters('armeabi','armeabi-v7a','arm64-v8a')
+//        }
     }
 
     buildTypes {
@@ -42,7 +46,7 @@ dependencies {
     // 引入基础SDK
     implementation 'com.huawei.hms:ml-computer-vision-ocr:3.5.0.304'
     // 引入拉丁语文字识别模型包
-    implementation 'com.huawei.hms:ml-computer-vision-ocr-latin-model:3.5.0.304'
+    //implementation 'com.huawei.hms:ml-computer-vision-ocr-latin-model:3.5.0.304'
     // 引入中英文文字识别模型
     implementation 'com.huawei.hms:ml-computer-vision-ocr-cn-model:2.0.5.300'
     // 引入通用卡证识别插件包
