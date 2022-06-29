@@ -208,6 +208,24 @@ public class StringUtils {
     }
 
     /**
+     * 获取 军官证编号
+     * @param origin
+     * @return
+     */
+    public static String getOfficerNumber(String origin){
+        if (origin == null || origin.isEmpty()) {
+            return "";
+        }
+
+        origin = filterString(origin,"[^0-9a-zA-Z]");
+
+        if (origin.length()<7) {
+            return "";
+        }
+        return origin;
+    }
+
+    /**
      * Get the ID number of Hong Kong Resident Permanent Identity Card.
      */
     public static String getHKIdCardNum(String origin) {

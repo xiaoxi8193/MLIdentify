@@ -55,11 +55,22 @@ public class OfficerCardProcessor implements GeneralCardProcessor {
 
         boolean validFlag = false;
 
-        BlockItem blockItem = officerOriginItems.stream().min(Comparator.comparing(BlockItem::getRectCenterY)).get();
+        BlockItem blockItemName = officerOriginItems.stream().min(Comparator.comparing(BlockItem::getRectCenterY)).get();
 
-        String nameResult = blockItem.text;
+        String nameResult = blockItemName.text;
         if (!nameResult.isEmpty()) {
             name = nameResult;
+        }
+
+        for (BlockItem item : officerOriginItems){
+            String officerTempStr = item.text;
+            if (!numberFlag) {
+                String officerResult = tryGetOfficerNumber(officerTempStr);
+                if (!officerResult.isEmpty()) {
+                    number = officerResult;
+                    numberFlag = true;
+                }
+            }
         }
 
 
@@ -165,5 +176,9 @@ public class OfficerCardProcessor implements GeneralCardProcessor {
 
     private String tryGetCardNumber(String originStr) {
         return StringUtils.getHomeCardNumber(originStr);
+    }
+
+    private String tryGetOfficerNumber(String originStr){
+        return StringUtils.getOfficerNumber(originStr);
     }
 }
